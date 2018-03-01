@@ -2,10 +2,11 @@ console.log('leggo bitches');
 
 words = ['letters','aggregate'];
 
-//fetch('http://143.215.110.228:8080/d/f/100');
-
 /**
 	Remap a word using an array of indices
+
+	>>remapWord('abc',[2,1,0])
+	<<"cba"
 */
 function remapWord(word,newLetters){
 	if(word.length != newLetters.length){
@@ -54,14 +55,30 @@ function jumble(word){
 		throw('Can\'t scramble words less than 4 chars long');
 	}
 
-	firstLetter = word[0];
-	lastLetter = word[word.length - 1];
+	jumbleMap = [];
+	for(i = 1; i<word.length-1; i++){
+		jumbleMap.push(i);
+	}
 
-	scrambled = '';
+	//shuffle middle part
+	jumbleMap = shuffle(jumbleMap);
 
-	newFirst = Math.floor(Math.random()*(word.length-2)) + 1;
+	console.log(jumbleMap);
 
-	newLast = Math.floor(Math.random()*(word.length-2)) + 1;
+	//randomly insert first and last letters
+	firstLetterLocation = Math.floor(1 + Math.random()*(word.length-2));
+	jumbleMap.splice(firstLetterLocation,0,0);
+
+	console.log(jumbleMap);
+
+	lastLetterLocation = Math.floor(Math.random()*(word.length-1));
+	console.log(word.length-1);
+
+	//This here aint working
+	jumbleMap = jumbleMap.splice(lastLetterLocation,0,(word.length-1));
+	console.log(jumbleMap);
+
+	scrambled = remapWord(word,jumbleMap);
 
 	return scrambled;
 
