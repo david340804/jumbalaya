@@ -63,20 +63,15 @@ function jumble(word){
 	//shuffle middle part
 	jumbleMap = shuffle(jumbleMap);
 
-	console.log(jumbleMap);
 
 	//randomly insert first and last letters
 	firstLetterLocation = Math.floor(1 + Math.random()*(word.length-2));
 	jumbleMap.splice(firstLetterLocation,0,0);
 
-	console.log(jumbleMap);
-
 	lastLetterLocation = Math.floor(Math.random()*(word.length-1));
-	console.log(word.length-1);
 
 	//This here aint working
-	jumbleMap = jumbleMap.splice(lastLetterLocation,0,(word.length-1));
-	console.log(jumbleMap);
+	jumbleMap.splice(lastLetterLocation,0,(word.length-1));
 
 	scrambled = remapWord(word,jumbleMap);
 
