@@ -1,0 +1,40 @@
+.scrambled-container{
+	display: flex;
+	flex-direction: row;
+	margin: 0;
+}
+
+.scrambled-letter{
+	flex: 1;
+	font-size: 40;
+	font-family: Verdana;
+	text-align: center;
+	color: #2C3539;
+	margin: 5;
+	padding: 5;
+	border-radius: 4px;
+	border-style: solid;
+	border-color: #3BB9FF;
+}
+
+.page-content{
+	width: 100%;
+}
+
+#display{
+	width: 50%;
+	display: table;
+  	margin: 0 auto;
+}
+
+.title-bar{
+	width: 50%;
+	display: table;
+  	margin: 0 auto;
+  	font-size: 40;
+	font-family: Verdana;
+	text-align: center;
+	color: #2C3539;
+	margin-top: 20;
+	margin-bottom: 50;
+}

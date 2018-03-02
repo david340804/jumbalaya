@@ -2,6 +2,8 @@ console.log('leggo bitches');
 
 words = ['letters','aggregate'];
 
+alphabet = 'abcdefghijklmnopqrstuvwxyz';
+
 /**
 	Remap a word using an array of indices
 
@@ -79,9 +81,40 @@ function jumble(word){
 
 }
 
+/**
+	Display a scrambled word and its entry boxes
+*/
+function displayWord(w){
+	di = document.getElementById('display');
+
+	scrambledContainer = document.createElement('div');
+	scrambledContainer.classList.add('scrambled-container');
+
+	scrambled = jumble(w);
+
+	for(i = 0; i< w.length; i++){
+		nd = document.createElement('div');
+		nd.id = 'scrambled_' + i;
+		nd.classList.add('scrambled-letter');
+		nd.innerHTML = scrambled[i];
+		scrambledContainer.appendChild(nd);
+	}
+
+	di.appendChild(scrambledContainer);
+
+	//di.innerHTML = scrambled;
+}
+
+function keyDown(e){
+
+	if(alphabet.indexOf(e.key) != -1){
+		console.log(e.key);
+	}
+}
+
 window.onload = function() {
-
-
+	document.addEventListener ("keydown", keyDown);
+	displayWord('aggregate');
 }
 
 //setInterval(updateDriving,100);
