@@ -4,8 +4,31 @@
 	margin: 0;
 }
 
+.entry-container{
+	display: flex;
+	flex-direction: row;
+	margin: 0;
+}
+
 .scrambled-letter{
 	flex: 1;
+	height: 50;
+	width: 50;
+	font-size: 40;
+	font-family: Verdana;
+	text-align: center;
+	color: #2C3539;
+	margin: 5;
+	padding: 5;
+	border-radius: 4px;
+	border-style: none;
+	border-color: #3BB9FF;
+}
+
+.entry-letter{
+	flex: 1;
+	height: 60;
+	width: 60;
 	font-size: 40;
 	font-family: Verdana;
 	text-align: center;
@@ -16,6 +39,21 @@
 	border-style: solid;
 	border-color: #3BB9FF;
 }
+
+.entry-letter-selected{
+	flex: 1;
+	font-size: 40;
+	font-family: Verdana;
+	text-align: center;
+	color: #2C3539;
+	margin: 5;
+	padding: 5;
+	border-radius: 4px;
+	border-style: solid;
+	border-color: #F70D1A;
+}
+
+
 
 .page-content{
 	width: 100%;

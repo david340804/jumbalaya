@@ -4,6 +4,10 @@ words = ['letters','aggregate'];
 
 alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
+word = 'aggregate';
+entryWord = [];
+entryLetterSelected = 0;
+
 /**
 	Remap a word using an array of indices
 
@@ -84,7 +88,7 @@ function jumble(word){
 /**
 	Display a scrambled word and its entry boxes
 */
-function displayWord(w){
+function addScrambledDisplay(w){
 	di = document.getElementById('display');
 
 	scrambledContainer = document.createElement('div');
@@ -93,6 +97,7 @@ function displayWord(w){
 	scrambled = jumble(w);
 
 	for(i = 0; i< w.length; i++){
+		entryWord.push(' ');
 		nd = document.createElement('div');
 		nd.id = 'scrambled_' + i;
 		nd.classList.add('scrambled-letter');
@@ -102,19 +107,92 @@ function displayWord(w){
 
 	di.appendChild(scrambledContainer);
 
-	//di.innerHTML = scrambled;
 }
 
+/**
+	Display a scrambled word and its entry boxes
+*/
+function addTextEntry(w){
+	di = document.getElementById('display');
+
+	entryContainer = document.createElement('div');
+	entryContainer.classList.add('entry-container');
+
+	for(i = 0; i< w.length; i++){
+		entryLetter = document.createElement('div');
+		entryLetter.id = 'entry_' + i;
+		entryLetter.classList.add('entry-letter');
+		entryLetter.innerHTML = '-';
+		entryContainer.appendChild(entryLetter);
+	}
+
+	di.appendChild(entryContainer);
+
+}
+
+/**
+	Update text entry boxes
+*/
+function updateTextEntry(){
+
+
+	for(i = 0; i< word.length; i++){
+		letter = document.getElementById('entry_' + i);
+		letter.classList.remove('entry-letter-selected');
+		letter.classList.add('entry-letter');
+		letter.innerHTML = entryWord[i];
+
+	}
+
+	s = document.getElementById('entry_' + entryLetterSelected);
+	s.classList.remove('entry-letter');
+	s.classList.add('entry-letter-selected');
+	
+}
+
+
+/**
+	Catch the keydown
+*/
 function keyDown(e){
 
+	//if the key is a letter
 	if(alphabet.indexOf(e.key) != -1){
 		console.log(e.key);
+
+		if(entryLetterSelected < word.length){
+			entryWord.splice(entryLetterSelected,1,e.key);
+		}
+
+		if(entryLetterSelected < word.length-1){
+			entryLetterSelected += 1;
+		}
 	}
+
+	if(e.key == 'Backspace'){
+		if(entryLetterSelected < word.length){
+			entryWord.splice(entryLetterSelected,1,' ');
+		}
+
+		if(entryLetterSelected > 0){
+			entryLetterSelected -= 1;
+		}
+	}
+
+	updateTextEntry();
+	console.log('EntryWord: ' + entryWord);
 }
 
+
 window.onload = function() {
+	//add listener for keys
 	document.addEventListener ("keydown", keyDown);
-	displayWord('aggregate');
+ 
+	addScrambledDisplay(word);
+
+	addTextEntry(word);
+
+	updateTextEntry();
 }
 
 //setInterval(updateDriving,100);
