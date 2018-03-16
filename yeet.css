@@ -26,7 +26,7 @@
 }
 
 .entry-letter{
-	flex: 1;
+	
 	height: 60;
 	width: 60;
 	font-size: 40;
@@ -41,7 +41,8 @@
 }
 
 .entry-letter-selected{
-	flex: 1;
+	height: 60;
+	width: 60;
 	font-size: 40;
 	font-family: Verdana;
 	text-align: center;
@@ -60,9 +61,18 @@
 }
 
 #display{
-	width: 50%;
+	
 	display: table;
   	margin: 0 auto;
+}
+
+#score-box{
+	position: absolute;
+    bottom: 0;
+    margin: 5px;
+    font-size: 40;
+	font-family: Verdana;
+	color: #2C3539;
 }
 
 .title-bar{

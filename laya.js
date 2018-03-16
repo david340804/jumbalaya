@@ -1,12 +1,26 @@
 console.log('leggo bitches');
 
-words = ['letters','aggregate'];
+words = ['letters','aggregate','weather','maps','news','calculator','dictionary','movies','horoscope','solitaire','calendar','fishing'];
 
 alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
-word = 'aggregate';
+word = '';
 entryWord = [];
 entryLetterSelected = 0;
+
+solves = 0;
+
+//store game activity state
+gameDone = false;
+
+/**
+	Get a random word from list
+*/
+function getRandomWord(){
+	i = Math.floor(Math.random() * word.length);
+
+	return words[i];
+}
 
 /**
 	Remap a word using an array of indices
@@ -109,6 +123,20 @@ function addScrambledDisplay(w){
 
 }
 
+/*
+	Test if the player won
+*/
+function won(){
+	return (word == entryWord.join(''));
+}
+
+/**
+	Clear display
+*/
+function clearDisplay(){
+	document.getElementById('display').innerHTML = '';
+}
+
 /**
 	Display a scrambled word and its entry boxes
 */
@@ -125,7 +153,6 @@ function addTextEntry(w){
 		entryLetter.innerHTML = '-';
 		entryContainer.appendChild(entryLetter);
 	}
-
 	di.appendChild(entryContainer);
 
 }
@@ -150,6 +177,27 @@ function updateTextEntry(){
 	
 }
 
+/*
+	Set the score box string
+*/
+function setScoreDisplay(_s){
+	document.getElementById('score-box').innerHTML = _s;
+}
+
+/**
+	Returns true if there are remaining occurences of _l in _enteredText to make _word
+*/
+function letterRemaining(_l, _word, _enteredText){
+	//calculate times the letter shows up in the answer and entered text
+	wordOccurances = (_word.split(_l).length - 1);
+	enteredOccrances = (_enteredText.split(_l).length - 1);
+
+	if(enteredOccrances < wordOccurances){
+		return true;
+	}
+	return false;
+}
+
 
 /**
 	Catch the keydown
@@ -157,8 +205,8 @@ function updateTextEntry(){
 function keyDown(e){
 
 	//if the key is a letter
-	if(alphabet.indexOf(e.key) != -1){
-		console.log(e.key);
+	if(alphabet.indexOf(e.key) != -1 && letterRemaining(e.key,word,entryWord.join(''))){
+		//console.log(e.key);
 
 		if(entryLetterSelected < word.length){
 			entryWord.splice(entryLetterSelected,1,e.key);
@@ -167,32 +215,72 @@ function keyDown(e){
 		if(entryLetterSelected < word.length-1){
 			entryLetterSelected += 1;
 		}
+
+		//check if new letter makes win condition
+		if(won()){
+			//alter game activity state to done
+			gameDone = true;
+
+			//increase score
+			solves += 1;
+
+			//update display
+			setScoreDisplay('Solves: ' + solves);
+
+			newPuzzle();
+
+		}
 	}
 
 	if(e.key == 'Backspace'){
-		if(entryLetterSelected < word.length){
+		//last letter filled case
+		if(entryLetterSelected == word.length-1 && entryWord[word.length-1] != ' '){
+			//clear last letter
 			entryWord.splice(entryLetterSelected,1,' ');
+		}else{
+			//if this isn't the last letter
+			if(entryLetterSelected < word.length){
+				entryWord.splice(entryLetterSelected-1,1,' ');
+			}
+			
+			//decrement letter
+			if(entryLetterSelected > 0){
+				entryLetterSelected -= 1;
+			}
 		}
-
-		if(entryLetterSelected > 0){
-			entryLetterSelected -= 1;
-		}
+		
 	}
 
 	updateTextEntry();
 	console.log('EntryWord: ' + entryWord);
 }
 
+/**
+	Generate a new puzzle
+*/
+function newPuzzle(){
+	//set puzzle game params
+	word = getRandomWord();
+	entryWord = [];
+	entryLetterSelected = 0;
+	gameDone = false;
 
-window.onload = function() {
-	//add listener for keys
-	document.addEventListener ("keydown", keyDown);
- 
+	clearDisplay();
+
 	addScrambledDisplay(word);
 
 	addTextEntry(word);
 
 	updateTextEntry();
+}
+
+
+window.onload = function() {
+	//add listener for keys
+	document.addEventListener ("keydown", keyDown);
+
+ 	newPuzzle();
+
 }
 
 //setInterval(updateDriving,100);
